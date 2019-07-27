@@ -3,8 +3,10 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 
+	"testplatform/routers/api"
 	"testplatform/routers/api/v1"
 	"testplatform/pkg/setting"
+	"testplatform/middleware/jwt"
 )
 
 func InitRouter() *gin.Engine {
@@ -21,8 +23,10 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
+	r.GET("/auth", api.GetAuth)
+
 	api_v1 := r.Group("/api/v1")
-	api_v1.Use()
+	api_v1.Use(jwt.JWT())
 	{
 		// 获取标签列表
 		api_v1.GET("/testcase", v1.GetTestcase)
