@@ -42,10 +42,10 @@ export default {
     gotoDataGraph () {
       this.$router.push('/data/graph');
     },
-    gotoToolUpload() {
+    gotoToolUpload () {
       this.$router.push('/tool/upload');
     },
-    gotoToolFormat() {
+    gotoToolFormat () {
       this.$router.push('/tool/format');
     }
   },

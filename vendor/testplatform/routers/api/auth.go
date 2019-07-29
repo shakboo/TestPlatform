@@ -39,7 +39,7 @@ func GetAuth(c *gin.Context) {
 				code = e.SUCCESS
 			}
 		} else {
-			code = e.INVALID_PARAMS
+			code = e.ERROR_AUTH
 		}
 	} else {
 		for _, err := range valid.Errors {
