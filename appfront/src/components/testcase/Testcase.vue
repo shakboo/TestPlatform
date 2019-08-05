@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import reqwest from 'reqwest';
+import axios from 'axios';
 
 const columns = [{
   title: '编号',
@@ -77,24 +77,21 @@ export default {
     },
 
     fetch (params = {}) {
-      console.log('params:', params);
       this.loading = true
-      reqwest({
+      axios({
         url: '/api/v1/testcase',
         method: 'get',
         data: {
           pageSize: 10,
           ...params
         },
-        type: 'json',
-      }).then((data) => {
-        console.log(data);
+      }).then((res) => {
         const pagination = { ...this.pagination };
         // Read total count from server
-        pagination.total = data.totalCount;
+        pagination.total = res.data.totalCount;
         // pagination.total = 10000;
         this.loading = false;
-        this.data = data.results;
+        this.data = res.data.results;
         this.pagination = pagination;
       });
     }

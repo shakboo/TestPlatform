@@ -15,3 +15,9 @@ func CheckAuth(username, password string) bool {
 
 	return false
 }
+
+func AddAuth(username, passowrd string) bool {
+	auth := Auth{Username: username, Password: passowrd}
+	db.Create(&auth)
+	return true
+}

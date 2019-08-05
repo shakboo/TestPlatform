@@ -72,19 +72,48 @@
 
 <script>
 import axios from 'axios'
+import Cookies from 'js-cookie';
+
+import { mapMutations } from 'vuex';
+
+let csrftoken = Cookies.get('csrftoken');
 export default {
   beforeCreate () {
     this.form = this.$form.createForm(this);
   },
   methods: {
+    ...mapMutations(['changeLogin']),
     handleSubmit (e) {
       e.preventDefault();
+      let _this = this;
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          const formData = new FormData();
+          formData.append('username', values.username);
+          formData.append('password', values.password);
+          axios({
+            url: '/auth',
+            method: 'post',
+            data: formData,
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            }).then((res) => {
+                this.$message.success("登陆成功");
+                _this.userToken = res.data.data.token;
+                _this.changeLogin({ Authorization: _this.userToken });
+                let redirect = this.$route.query.redirect;
+                redirect ? this.$router.push(redirect) : this.$router.push({name: 'testcase'});
+          }).catch(err => { //请求失败就会捕获报错信息
+            console.log('服务器连接失败');
+            console.log(err);
+          })
+        } else {
+          console.log('用户信息错误')
+          return false
         }
-      });
-    },
+      })
+    }
   },
 };
 </script>

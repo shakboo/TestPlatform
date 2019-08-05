@@ -6,7 +6,11 @@ import (
 	"testplatform/pkg/setting"
 )
 
-var jwtSecret = []byte(setting.JwtSecret)
+var(
+	jwtSecret = []byte(setting.JwtSecret)
+	expireTime = time.Now().Add(1 * time.Hour)
+)
+	
 
 type Claims struct {
 	Username string `json:"username"`
@@ -15,8 +19,6 @@ type Claims struct {
 }
 
 func GenerateToken(username, password string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
 		username,

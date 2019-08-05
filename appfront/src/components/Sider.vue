@@ -7,8 +7,7 @@
       </div>
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['4']">
         <a-menu-item key="testcase" @click="gotoTestcase">
-          <a-icon type="appstore-o" />
-          <span class="nav-text">测试用例</span>
+          <span class="nav-text"><a-icon type="appstore-o" />测试用例</span>
         </a-menu-item>
         <a-sub-menu key="data">
           <span slot="title"><a-icon type="appstore-o" />数据构造</span>
@@ -22,7 +21,9 @@
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
-      <a-layout-header :style="{ background: '#fff', padding: 0 }" />
+      <a-layout-header :style="{ background: '#fff', padding: 0 }">
+        <a-icon  id="logout" type="logout" @click="logout" />
+      </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
         <router-view></router-view>
       </a-layout-content>
@@ -33,8 +34,16 @@
   </a-layout>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name: 'Sider',
+  mounted () {
+    if (localStorage.getItem('Authorization')) {
+      this.$router.push({name: 'testcase'});
+    } else {
+      this.$router.push({name: 'login'});
+    }
+  },
   methods: {
     gotoTestcase () {
       this.$router.push({name: 'testcase'});
@@ -47,6 +56,17 @@ export default {
     },
     gotoToolFormat () {
       this.$router.push({name: 'format'});
+    },
+    logout () {
+      axios({
+        url: '/api/v1/user/logout',
+        method: 'post',
+      }).then((res) => {
+        localStorage.removeItem('Authorization');
+        this.$router.push({name: 'login'});
+        this.$message.success("成功注销");
+      });
+      
     }
   },
 }
@@ -56,6 +76,18 @@ export default {
   height: 32px;
   background: rgba(255,255,255,.2);
   margin: 16px;
+}
+
+#logout {
+  float: right;
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+#logout:hover {
+  color: #1890ff;
 }
 /*
 a {

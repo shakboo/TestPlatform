@@ -17,9 +17,9 @@ type auth struct {
 	Password string `valid:"Required; MaxSize(50)"`
 }
 
-func GetAuth(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
+func PostAuth(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
 	valid := validation.Validation{}
 	a := auth{Username: username, Password: password}

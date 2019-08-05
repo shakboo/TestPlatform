@@ -16,7 +16,8 @@ func JWT() gin.HandlerFunc {
 		var data interface{}
 		
 		code = e.SUCCESS
-		token := c.Query("token")
+		// token := c.Query("token")
+		token := c.GetHeader("Authorization")
 		if token == "" {
 			code = e.INVALID_PARAMS
 		} else {
@@ -25,6 +26,8 @@ func JWT() gin.HandlerFunc {
 				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 			} else if time.Now().Unix() > claims.ExpiresAt {
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+			} else {
+				claims.ExpiresAt = time.Now().Add(1 * time.Hour).Unix()
 			}
 		}
 
