@@ -58,16 +58,10 @@ export default {
       this.$router.push({name: 'format'});
     },
     logout () {
-      axios({
-        url: '/api/v1/user/logout',
-        method: 'post',
-      }).then((res) => {
-        localStorage.removeItem('Authorization');
-        this.$router.push({name: 'login'});
-        this.$message.success("成功注销");
-      });
-      
-    }
+      localStorage.removeItem('Authorization');
+      this.$router.push({name: 'login'});
+      this.$message.success("成功注销");   
+    },
   },
 }
 </script>

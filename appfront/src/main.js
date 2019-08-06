@@ -11,18 +11,6 @@ import axios from 'axios'
 Vue.config.productionTip = false
 Vue.use(Antd)
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  render: h => h(App),
-  template: '<App/>'
-})
-
-
-
 //异步请求前在header里加入token
 axios.interceptors.request.use(
   config => {
@@ -49,7 +37,10 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           localStorage.removeItem('Authorization');
-          this.$router.push({name : 'login'});
+          router.replace({
+            path: '/login',
+            query: {redirect: router.currentRoute.fullPath}
+          })
       }
     }
   }
@@ -70,3 +61,15 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  render: h => h(App),
+  template: '<App/>'
+})
+
+

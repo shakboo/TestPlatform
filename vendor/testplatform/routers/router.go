@@ -29,8 +29,6 @@ func InitRouter() *gin.Engine {
 	api_v1 := r.Group("/api/v1")
 	api_v1.Use(jwt.JWT())
 	{
-		// 用户注销
-		api_v1.POST("/user/logout", v1.PostLogout)
 		// 获取标签列表
 		api_v1.GET("/testcase", v1.GetTestcase)
 		// 构造网络图数据
