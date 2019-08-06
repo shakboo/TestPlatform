@@ -39,7 +39,7 @@ func PostAuth(c *gin.Context) {
 				code = e.SUCCESS
 			}
 		} else {
-			code = e.ERROR_AUTH
+			code = e.ERROR_AUTH_TOKEN
 		}
 	} else {
 		for _, err := range valid.Errors {
