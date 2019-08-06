@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/user/Login'
+import register from '@/components/user/Register'
 import sider from '@/components/Sider'
 import testcase from '@/components/testcase/Testcase'
 import graph from '@/components/data/Graph'
 import upload from '@/components/tool/Upload'
 import format from '@/components/tool/Format'
-import App from '../App'
 
 Vue.use(Router)
 
@@ -18,6 +18,12 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
+    },
+    // 注册
+    {
+      path: '/register',
+      name: 'register',
+      component: register,
     },
     // 主界面
     {

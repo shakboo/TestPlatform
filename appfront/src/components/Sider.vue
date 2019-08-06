@@ -21,8 +21,10 @@
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
-      <a-layout-header :style="{ background: '#fff', padding: 0 }">
-        <a-icon  id="logout" type="logout" @click="logout" />
+      <a-layout-header :style="{ background: '#fff', padding: 0 }"> 
+        <a-tooltip placement="top" title="注销">
+          <a-icon id="logout" type="logout" @click="logout" />
+        </a-tooltip>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
         <router-view></router-view>

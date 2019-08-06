@@ -25,7 +25,8 @@ func InitRouter() *gin.Engine {
 
 	// 用户登录认证
 	r.POST("/auth", api.PostAuth)
-
+	// 用户注册
+	r.POST("/register", api.PostRegister)
 	api_v1 := r.Group("/api/v1")
 	api_v1.Use(jwt.JWT())
 	{

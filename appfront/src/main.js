@@ -14,7 +14,7 @@ Vue.use(Antd)
 //异步请求前在header里加入token
 axios.interceptors.request.use(
   config => {
-    if(config.url === '/auth'){  //如果是登录和注册操作，则不需要携带header里面的token
+    if(config.url === '/auth' || config.url === '/register'){  //如果是登录和注册操作，则不需要携带header里面的token
     } else {
       if (localStorage.getItem('Authorization')) {
         config.headers.Authorization = localStorage.getItem('Authorization');
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
           localStorage.removeItem('Authorization');
           router.replace({
             path: '/login',
-            query: {redirect: router.currentRoute.fullPath}
+            // query: {redirect: router.currentRoute.fullPath}
           })
       }
     }

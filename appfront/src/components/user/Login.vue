@@ -62,9 +62,9 @@
             >
                 Log in
             </a-button>
-            Or <a href="">
+            Or <a href="javascript:void(0);" @click="gotoRegister">
                 register now!
-            </a>
+                </a>
             </a-form-item>
         </a-form>
     </div>
@@ -99,21 +99,24 @@ export default {
                 'X-CSRFToken': csrftoken,
             },
             }).then((res) => {
-                this.$message.success("登陆成功");
+                this.$message.success(res.data.msg);
                 _this.userToken = res.data.data.token;
                 _this.changeLogin({ Authorization: _this.userToken });
                 let redirect = this.$route.query.redirect;
                 redirect ? this.$router.push(redirect) : this.$router.push({name: 'testcase'});
-          }).catch(err => { //请求失败就会捕获报错信息
-            console.log('服务器连接失败');
-            console.log(err);
-          })
+            }).catch(err => { //请求失败就会捕获报错信息
+                console.log(err);
+                this.$message.error("登录失败");
+            })
         } else {
-          console.log('用户信息错误')
-          return false
+          this.$message.error('用户信息错误');
+          return false;
         }
       })
-    }
+    },
+    gotoRegister () {
+        this.$router.push({name: 'register'});
+    },
   },
 };
 </script>
@@ -125,7 +128,7 @@ html,body {
     padding: 0;
 }
 #components-form-demo-normal-login .login-form {
-    max-width: 300px;
+    max-width: 500px;
 }
 #components-form-demo-normal-login .login-form-forgot {
     float: right;

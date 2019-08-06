@@ -7,9 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/astaxie/beego/validation"
 	
-	"testplatform/pkg/e"
 	"testplatform/pkg/util"
 	"testplatform/models"
+	"testplatform/pkg/e"
 )
 
 type auth struct {
@@ -52,4 +52,25 @@ func PostAuth(c *gin.Context) {
 		"msg" : e.GetMsg(code),
 		"data" : data,
 	})
+
+	
+}
+
+func PostRegister(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+
+	valid := validation.Validation{}
+	a := auth{Username: username, Password: password}
+	ok, _ := valid.Valid(&a)
+	if ok {
+		isRegister := models.AddAuth(username, password)
+		if isRegister {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": "注册成功",
+			})
+		} else {
+
+		}
+	}
 }
