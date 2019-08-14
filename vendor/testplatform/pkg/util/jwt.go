@@ -1,14 +1,14 @@
 package util
 
 import (
-	"time"
+	// "time"
 	jwt "github.com/dgrijalva/jwt-go"
 	"testplatform/pkg/setting"
 )
 
 var(
 	jwtSecret = []byte(setting.JwtSecret)
-	expireTime = time.Now().Add(1 * time.Hour)
+	// expireTime = time.Now().Add(1 * time.Hour)
 )
 	
 
@@ -18,13 +18,14 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
+// 生成token
 func GenerateToken(username, password string) (string, error) {
 
 	claims := Claims{
 		username,
 		password,
 		jwt.StandardClaims {
-			ExpiresAt : expireTime.Unix(),
+			// ExpiresAt : expireTime.Unix(),
 			Issuer : "testplatform",
 		},
 	}
@@ -35,6 +36,7 @@ func GenerateToken(username, password string) (string, error) {
 	return token, err
 }
 
+// 解析token
 func ParseToken(token string) (*Claims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil

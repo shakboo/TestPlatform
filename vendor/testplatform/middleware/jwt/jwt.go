@@ -24,8 +24,13 @@ func JWT() gin.HandlerFunc {
 			if err != nil {
 				code = e.ERROR_AUTH_TOKEN
 			} else if time.Now().Unix() > claims.ExpiresAt {
-				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+				// code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+				claims.ExpiresAt += time.Now().Add(1 * time.Hour).Unix()
+			} else {
+				// 每次向后端的有效请求，都会刷新token的过期时间
+				claims.ExpiresAt += time.Now().Add(1 * time.Hour).Unix()
 			}
+			
 		}
 
 		if code != e.SUCCESS {

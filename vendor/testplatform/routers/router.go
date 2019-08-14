@@ -30,8 +30,14 @@ func InitRouter() *gin.Engine {
 	api_v1 := r.Group("/api/v1")
 	api_v1.Use(jwt.JWT())
 	{
-		// 获取标签列表
+		// 获取测试用例
 		api_v1.GET("/testcase", v1.GetTestcase)
+		// 更新测试用例
+		api_v1.PUT("/testcase", v1.PutTestcase)
+		// 添加测试用例
+		api_v1.POST("/testcase", v1.PostTestcase)
+		// 删除用例
+		api_v1.DELETE("/testcase", v1.DeleteTestcase)
 		// 构造网络图数据
 		api_v1.GET("/data/graph", v1.GetGraphData)
 		// 上传文件到数据库

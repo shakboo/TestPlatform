@@ -35,8 +35,13 @@ export default new Router({
       component: sider,
       children: [
         {
-          path: 'testcase',
-          name: 'testcase',
+          path: 'testcase/ml',
+          name: 'testcase-ml',
+          component: testcase,
+        },
+        {
+          path: 'testcase/sj',
+          name: 'testcase-sj',
           component: testcase,
         },
         {

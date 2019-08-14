@@ -103,7 +103,7 @@ export default {
                 _this.userToken = res.data.data.token;
                 _this.changeLogin({ Authorization: _this.userToken });
                 let redirect = this.$route.query.redirect;
-                redirect ? this.$router.push(redirect) : this.$router.push({name: 'testcase'});
+                redirect ? this.$router.push(redirect) : this.$router.push({name: 'testcase-ml'});
             }).catch(err => { //请求失败就会捕获报错信息
                 console.log(err);
                 this.$message.error("登录失败");

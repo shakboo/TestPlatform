@@ -27,15 +27,25 @@ axios.interceptors.request.use(
   }
 )
 
+
 //异步请求后，判断token是否过期
 axios.interceptors.response.use(
   response =>{
-    return response;
-  },
-  error => {
-    if(error.response){
-      switch (error.response.status) {
-        case 401:
+    if (response) {
+      switch (response.data.code) {
+        case 400:    // 请求头中没有token
+          localStorage.removeItem('Authorization');
+          router.replace({
+            path: '/login',
+            // query: {redirect: router.currentRoute.fullPath}
+          })
+        case 401:    // token验证失败
+          localStorage.removeItem('Authorization');
+          router.replace({
+            path: '/login',
+            // query: {redirect: router.currentRoute.fullPath}
+          })
+        case 403:
           localStorage.removeItem('Authorization');
           router.replace({
             path: '/login',
@@ -43,7 +53,11 @@ axios.interceptors.response.use(
           })
       }
     }
-  }
+    return response;
+  },
+  error => {
+      return Promise.reject(error.response.data); // 接口返回的错误信息
+    }
 )
 
 //异步请求前判断请求的连接是否需要token
