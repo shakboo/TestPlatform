@@ -2,12 +2,14 @@ package v1
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/Unknwon/com"
 	
 	"testplatform/models"
 	"testplatform/pkg/e"
+	"testplatform/pkg/util"
 )
 
 func GetTestcase(c *gin.Context) {
@@ -82,4 +84,16 @@ func DeleteTestcase(c *gin.Context) {
 		"code": code,
 		"msg": e.GetMsg(code),
 	})	
+}
+
+func ExportTestcase(c *gin.Context) {
+	item := c.Query("item")
+
+	data := models.GetAllTestcases(item)
+	
+	path, _ := util.WriteToExcel(data)
+
+	defer os.Remove(path)
+
+	c.File(path)
 }

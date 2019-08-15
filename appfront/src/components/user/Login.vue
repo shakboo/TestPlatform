@@ -99,7 +99,11 @@ export default {
                 'X-CSRFToken': csrftoken,
             },
             }).then((res) => {
-                this.$message.success(res.data.msg);
+                if (res.data.code === 200) {
+                  this.$message.success(res.data.msg);
+                } else {
+                  this.$message.error(res.data.msg);
+                }
                 _this.userToken = res.data.data.token;
                 _this.changeLogin({ Authorization: _this.userToken });
                 let redirect = this.$route.query.redirect;

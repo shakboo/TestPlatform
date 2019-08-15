@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "kSg1MBhttZan5goPKsUPAZI7qBE=",
+			"path": "github.com/360EntSecGroup-Skylar/excelize",
+			"revision": "3092ce6e542bec39135844c4bf45fe22f9e30b7a",
+			"revisionTime": "2019-08-14T02:17:29Z"
+		},
+		{
 			"checksumSHA1": "pcrgKHC4aT5B6vmwielu/xT0N8k=",
 			"path": "github.com/Unknwon/com",
 			"revision": "0fed4efef7553eed2cd04624befccacda78bb8e2",
@@ -119,6 +125,12 @@
 		{
 			"path": "github.com/modern-go/reflect2",
 			"revision": ""
+		},
+		{
+			"checksumSHA1": "2jsbDTvwxafPp7FJjJ8IIFlTLjs=",
+			"path": "github.com/mohae/deepcopy",
+			"revision": "c48cc78d482608239f6c4c92a4abd87eb8761c90",
+			"revisionTime": "2017-09-29T03:49:55Z"
 		},
 		{
 			"checksumSHA1": "O1SEvYOXXQ1eGX82MGI79MI2l5w=",

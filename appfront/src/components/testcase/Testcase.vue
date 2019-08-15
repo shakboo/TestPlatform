@@ -82,12 +82,12 @@
             {rules: [{ required: true, message: '请填写预期结果' }]}
             ]" />
           </a-form-item>
-          <a button @click="confirm"
         </a-form>
       </a-modal>
       <a-button
         type="primary"
-        @click="addTestcaseModel"
+        @click="exportTestcase"
+        :loading="exportLoading"
       >
         导出用例
       </a-button>
@@ -214,6 +214,7 @@ export default {
       columns,          
       visible: false,        // Model
       confirmLoading: false,  // Model
+      exportLoading: false,   //export
     }  
   },
   computed: {
@@ -348,6 +349,7 @@ export default {
       return {
         on: {
           click: (e) => {
+            console.log(e);
             // 选中元素
             if (e.target.tagName != "TR") {
               e = e.target.parentNode;
@@ -388,8 +390,7 @@ export default {
                 this.selectedRowKey = record.id;
                 this.selectedElement = [e.target, index];
               } 
-            }
-            
+            }        
           },
         }
       }
@@ -440,6 +441,38 @@ export default {
         }
       })
     },
+    exportTestcase () {
+      this.exportLoading = true;
+      axios({
+        url: '/api/v1/testcase/export',
+        method: 'get',
+        params: {
+          "item": this.item,
+        },
+        responseType: 'blob',
+      }).then((res) => {
+        this.exportLoading = false;
+        this.$message.success('导出成功');
+        var fileName = "测试用例.xlsx";
+        if (this.item === 'ml') {
+          fileName = "机器学习平台" + fileName;
+        } else if (this.item === 'sj') {
+          fileName = "数据治理平台" + fileName;
+        }
+        if ('download' in document.createElement('a')) { // 非IE下载
+          const elink = document.createElement('a');
+          elink.download = fileName;
+          elink.style.display = 'none';
+          elink.href = URL.createObjectURL(res.data);
+          document.body.appendChild(elink);
+          elink.click();
+          URL.revokeObjectURL(elink.href) ;// 释放URL 对象
+          document.body.removeChild(elink);
+        } else { // IE10+下载
+          navigator.msSaveBlob(res.data, fileName);
+        }
+      });
+    }
   }
 }
 </script>

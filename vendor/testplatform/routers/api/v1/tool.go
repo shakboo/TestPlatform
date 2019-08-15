@@ -47,7 +47,7 @@ func PostUploadFile(c *gin.Context) {
 }
 
 
-func PostChangeFileFormat (c *gin.Context) {
+func PostChangeFileFormat(c *gin.Context) {
 	targetType := c.PostForm("targetType")
 	fileName := c.PostForm("fileName")
 	fileType := c.PostForm("fileType")

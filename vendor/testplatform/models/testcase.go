@@ -17,6 +17,12 @@ type Testcase struct {
 	Item string `json:"item"`
 }
 
+func GetAllTestcases(item string) (testcases []Testcase) {
+	db.Where("item = ?", item).Order("ID").Find(&testcases)
+
+	return
+}
+
 func GetTestcases(item string, pageSize int, pageCurrent int, sortOrder string, filterImportance []string) (testcases []Testcase) {
 	var order = "ID"
 	if sortOrder == "descend" {
