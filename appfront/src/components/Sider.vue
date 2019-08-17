@@ -24,9 +24,12 @@
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
-      <a-layout-header :style="{ background: '#fff', padding: 0 }"> 
+      <a-layout-header :style="{ background: '#fff', padding: 0 }">
         <a-tooltip placement="top" title="注销">
           <a-icon id="logout" type="logout" @click="logout" />
+        </a-tooltip>
+        <a-tooltip placement="top" :title="username">
+          <a-icon type="user" id="user" />
         </a-tooltip>
       </a-layout-header>
       <a-layout-content>
@@ -44,6 +47,11 @@
 import axios from 'axios';
 export default {
   name: 'Sider',
+  data () {
+    return {
+      username: localStorage.getItem('username'),
+    }
+  },
   mounted () {
     if (localStorage.getItem('Authorization')) {
       this.$router.push({name: 'testcase-ml'});
@@ -82,7 +90,7 @@ export default {
   margin: 16px;
 }
 
-#logout {
+#logout, #user {
   float: right;
   font-size: 18px;
   line-height: 64px;
@@ -90,7 +98,7 @@ export default {
   cursor: pointer;
   transition: color .3s;
 }
-#logout:hover {
+#logout:hover, #user:hover {
   color: #1890ff;
 }
 /*
