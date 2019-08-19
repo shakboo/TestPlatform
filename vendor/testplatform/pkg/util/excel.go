@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 	"strconv"
+	"log"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
 	
@@ -11,7 +12,13 @@ import (
 )
 
 func WriteToExcel(data []models.Testcase) (path string, err error) {
-	mainPath, _ := os.Getwd()
+	mainPath, err := os.Getwd()
+
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
 	fileName := strconv.FormatInt(time.Now().Unix(), 10) + ".xlsx"
 	path = mainPath + "/static/" + fileName
 

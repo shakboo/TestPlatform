@@ -3,9 +3,11 @@ package v1
 import (
 	"net/http"
 	"os"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/Unknwon/com"
+	"github.com/360EntSecGroup-Skylar/excelize"
 	
 	"testplatform/models"
 	"testplatform/pkg/e"
@@ -96,4 +98,33 @@ func ExportTestcase(c *gin.Context) {
 	defer os.Remove(path)
 
 	c.File(path)
+}
+
+func ImportTestcase(c *gin.Context) {
+	item := c.PostForm("item")
+	
+	file, _ := c.FormFile("file")
+
+	mainPath, _ := os.Getwd()
+	path := mainPath + "/static/" + file.Filename
+	c.SaveUploadedFile(file, path)
+
+	f, err := excelize.OpenFile(path)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	rows, err := f.Rows("Sheet1")
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	defer os.Remove(path)
+
+
+
 }
