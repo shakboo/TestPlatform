@@ -91,6 +91,32 @@
       >
         导出用例
       </a-button>
+      <a-button
+        type="primary"
+        @click="importTestcaseModel"
+      >
+        导入用例
+      </a-button>
+      <a-modal
+        title="上传用例"
+        :confirmLoading="importLoading"
+        :visible="importModalVisible"
+        @ok="handleImportModalSubmit"
+        @cancel="handleImportModalCancel"
+        okText="提交"
+        cancelText="取消"
+      >
+        <a-upload
+        accept=".xlsx"
+        :fileList="fileList"
+        :remove="handleImportModalRemove"
+        :beforeUpload="beforeUpload"
+        >
+          <a-button>
+            <a-icon type="upload" /> 选择文件
+          </a-button>
+        </a-upload>
+      </a-modal>
     </div>
     <a-table :columns="columns"
         :dataSource="data"
@@ -212,9 +238,12 @@ export default {
       selectedRowKey: 0,  // 选中行的id
       selectedElement: [],  // 选中行的[element, index]
       columns,          
-      visible: false,        // Model
-      confirmLoading: false,  // Model
-      exportLoading: false,   //export
+      visible: false,        // Modal
+      confirmLoading: false,  // Modal
+      exportLoading: false,   // export
+      importLoading: false,
+      importModalVisible: false, // import Modal
+      fileList: [],  // import Modal
     }  
   },
   computed: {
@@ -398,8 +427,14 @@ export default {
     addTestcaseModel () {
       this.visible = true;
     },
+    importTestcaseModel () {
+      this.importModalVisible = true;
+    },
     handleCancel () {
       this.visible = false;
+    },
+    handleImportModalCancel () {
+      this.importModalVisible = false;
     },
     handleSubmit (e) {
       e.preventDefault();
@@ -472,6 +507,39 @@ export default {
           navigator.msSaveBlob(res.data, fileName);
         }
       });
+    },
+    handleImportModalRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList
+    },
+    beforeUpload(file) {
+      this.fileList = [file]
+      return false;
+    },
+    handleImportModalSubmit (e) {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('file', this.fileList[0]);
+      formData.append('item', this.item);
+      this.importLoading = true;
+      axios({
+        url: '/api/v1/testcase/import',
+        method: 'post',
+        data: formData
+      }).then((res) => {
+        this.importLoading = false;
+        this.fileList = [];
+        this.importModalVisible = false;
+        this.fetch({
+          pageCurrent: this.pagination.pageCurrent,
+          sortOrder: this.pagination.sortOrder,
+          sortField: this.pagination.sortField,
+          ...this.pagination.filters,
+        });
+        this.$message.success("用例上传成功");
+      })
     }
   }
 }

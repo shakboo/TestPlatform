@@ -1,27 +1,14 @@
 package util
 
 import (
-	"os"
-	"time"
 	"strconv"
-	"log"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
 	
 	"testplatform/models"
 )
 
-func WriteToExcel(data []models.Testcase) (path string, err error) {
-	mainPath, err := os.Getwd()
-
-	if err != nil {
-		log.Println(err)
-		return "", err
-	}
-
-	fileName := strconv.FormatInt(time.Now().Unix(), 10) + ".xlsx"
-	path = mainPath + "/static/" + fileName
-
+func WriteToExcel(data []models.Testcase, path string) (err error) {
 	f := excelize.NewFile()
 
 	f.SetCellValue("Sheet1", "A1", "编号")
@@ -44,5 +31,5 @@ func WriteToExcel(data []models.Testcase) (path string, err error) {
 	
 	err = f.SaveAs(path)
 
-	return path, err
+	return err
 }

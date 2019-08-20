@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"os"
 	"log"
+	"time"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/Unknwon/com"
@@ -92,8 +94,17 @@ func ExportTestcase(c *gin.Context) {
 	item := c.Query("item")
 
 	data := models.GetAllTestcases(item)
+	mainPath, err := os.Getwd()
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	fileName := strconv.FormatInt(time.Now().Unix(), 10) + ".xlsx"
+	path := mainPath + "/static/" + fileName
 	
-	path, _ := util.WriteToExcel(data)
+	util.WriteToExcel(data, path)
 
 	defer os.Remove(path)
 
@@ -101,9 +112,11 @@ func ExportTestcase(c *gin.Context) {
 }
 
 func ImportTestcase(c *gin.Context) {
+
 	item := c.PostForm("item")
-	
 	file, _ := c.FormFile("file")
+
+	code := e.SUCCESS
 
 	mainPath, _ := os.Getwd()
 	path := mainPath + "/static/" + file.Filename
@@ -125,6 +138,17 @@ func ImportTestcase(c *gin.Context) {
 
 	defer os.Remove(path)
 
+	// 先将原来的用例保存
+	data := models.GetAllTestcases(item)
+	util.WriteToExcel(data, mainPath + "/static" + "/backup/" + strconv.FormatInt(time.Now().Unix(), 10) + ".xlsx")
 
+	for rows.Next() {
+		row, _ := rows.Columns()
+		models.PutTestcases(item, com.StrTo(row[0]).MustInt(), row[1], row[2], row[3], row[4], row[5])
+	}
 
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg": e.GetMsg(code),
+	})
 }

@@ -48,6 +48,7 @@ func GetTestcasesTotal(item string, filterImportance []string) (count int) {
 }
 
 func PutTestcases(item string, id int, module string, importance string, describe string, step string, result string) {
+	db.Model(&Testcase{}).Where("item = ?", item).Where("id = ?", id).FirstOrCreate(&Testcase{}, map[string]interface{}{"item": item, "id": id, "module": module, "importance": importance, "describe": describe, "step": step, "result": result})
 	db.Model(&Testcase{}).Where("item = ?", item).Where("id = ?", id).Updates(map[string]interface{}{"module": module, "importance": importance, "describe": describe, "step": step, "result": result})
 }
 

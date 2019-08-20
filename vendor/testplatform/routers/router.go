@@ -40,6 +40,8 @@ func InitRouter() *gin.Engine {
 		api_v1.DELETE("/testcase", v1.DeleteTestcase)
 		// 导出用例
 		api_v1.GET("/testcase/export", v1.ExportTestcase)
+		// 导入用例
+		api_v1.POST("/testcase/import", v1.ImportTestcase)
 		// 构造网络图数据
 		api_v1.GET("/data/graph", v1.GetGraphData)
 		// 上传文件到数据库
