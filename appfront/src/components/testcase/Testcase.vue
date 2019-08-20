@@ -520,6 +520,10 @@ export default {
     },
     handleImportModalSubmit (e) {
       e.preventDefault();
+      if (this.fileList.length == 0) {
+        this.$message.error("请选择上传文件");
+        return false;
+      }
       const formData = new FormData();
       formData.append('file', this.fileList[0]);
       formData.append('item', this.item);

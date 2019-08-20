@@ -130,6 +130,7 @@ func ImportTestcase(c *gin.Context) {
 	}
 
 	rows, err := f.Rows("Sheet1")
+	rows.Columns()   // 忽略表头，先迭代一次
 
 	if err != nil {
 		log.Println(err)
