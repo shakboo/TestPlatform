@@ -182,15 +182,15 @@ const columns = [{
   title: '编号',
   dataIndex: 'id',
   sorter: true,
-  width: '5%',
+  width: '6%',
   scopedSlots: { customRender: 'id' },
 }, {
   title: '模块',
   dataIndex: 'module',
-  width: '9%',
+  width: '8%',
   scopedSlots: { customRender: 'module' },
 }, {
-  title: '重要性',
+  title: '等级',
   dataIndex: 'importance',
   filters: [
     { text: '高', value: '高' },
