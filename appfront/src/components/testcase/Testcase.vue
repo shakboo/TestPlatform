@@ -378,7 +378,6 @@ export default {
       return {
         on: {
           click: (e) => {
-            console.log(e);
             // 选中元素
             if (e.target.tagName != "TR") {
               e = e.target.parentNode;
