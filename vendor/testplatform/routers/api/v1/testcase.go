@@ -29,11 +29,13 @@ func GetTestcase(c *gin.Context) {
 
 	data := models.GetTestcases(item, pageSize, pageCurrent, sortOrder, filterImportance)
 	totalCount := models.GetTestcasesTotal(item, filterImportance)
+	modules := models.GetTestcasesModule(item)
 
 	c.JSON(http.StatusOK, gin.H{
 		"code" : code,
 		"msg" : e.GetMsg(code),
 		"results" : data,
+		"modules" : modules,
 		"totalCount" : totalCount,
 	})
 }

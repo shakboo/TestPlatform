@@ -188,6 +188,7 @@ const columns = [{
   title: '模块',
   dataIndex: 'module',
   width: '8%',
+  filters: [],
   scopedSlots: { customRender: 'module' },
 }, {
   title: '等级',
@@ -295,6 +296,12 @@ export default {
         pagination.total = res.data.totalCount;
         this.loading = false;
         this.data = res.data.results;
+        var modules = res.data.modules
+        this.columns[1].filters = [];
+        for (var i=0;i<modules.length;i++) {
+          this.columns[1].filters.push({"text": modules[i].module, "value": modules[i].module});
+        }
+        console.log(this.columns);
         this.cacheData = this.data.map(item => ({...item}));
         this.pagination = pagination;
       });

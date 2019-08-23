@@ -17,6 +17,7 @@ type Testcase struct {
 	Item string `json:"item"`
 }
 
+
 func GetAllTestcases(item string) (testcases []Testcase) {
 	db.Where("item = ?", item).Order("ID").Find(&testcases)
 
@@ -44,6 +45,11 @@ func GetTestcasesTotal(item string, filterImportance []string) (count int) {
 		db.Model(&Testcase{}).Where("item = ?", item).Count(&count)
 	}
 
+	return
+}
+
+func GetTestcasesModule(item string) (testcases []Testcase) {
+	db.Select("DISTINCT(module)").Find(&testcases)
 	return
 }
 
