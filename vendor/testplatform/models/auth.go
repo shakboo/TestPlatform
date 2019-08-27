@@ -12,12 +12,13 @@ func CheckAuth(username, password string) bool {
 	if auth.ID > 0 {
 		return true
 	}
-
 	return false
 }
 
 func AddAuth(username, passowrd string) bool {
 	auth := Auth{Username: username, Password: passowrd}
-	db.Create(&auth)
+	if err := db.Create(&auth).Error; err != nil {
+		return false
+	}
 	return true
 }

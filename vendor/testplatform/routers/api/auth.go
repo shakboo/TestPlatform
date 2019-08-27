@@ -70,7 +70,9 @@ func PostRegister(c *gin.Context) {
 				"msg": "注册成功",
 			})
 		} else {
-
+			c.JSON(http.StatusBadRequest, gin.H{
+				"msg": "该用户已存在",
+			})
 		}
 	}
 }

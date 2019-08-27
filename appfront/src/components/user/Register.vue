@@ -135,7 +135,7 @@ export default {
                         this.$message.success(res.data.msg);
                         this.$router.push({name: 'login'});
                     }).catch(err => {
-                        this.$message.error("注册失败");
+                        this.$message.error(err.msg);
                     })
                 } else {
                     this.$message.error('注册信息错误');
