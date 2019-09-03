@@ -4,6 +4,7 @@ type Auth struct {
 	ID int `gorm:"primary_key" json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Role string `json:"role"`
 }
 
 func CheckAuth(username, password string) bool {
@@ -21,4 +22,14 @@ func AddAuth(username, passowrd string) bool {
 		return false
 	}
 	return true
+}
+
+func GetAllUsers(pageSize, pageCurrent int) (users []Auth) {
+	db.Order("ID desc").Find(&users)
+	return
+}
+
+func GetUsersTotal() (count int) {
+	db.Model(&Auth{}).Count(&count)
+	return
 }

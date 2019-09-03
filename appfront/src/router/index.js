@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/user/Login'
 import register from '@/components/user/Register'
+import team from '@/components/user/team'
 import sider from '@/components/Sider'
 import testcase from '@/components/testcase/Testcase'
 import graph from '@/components/data/Graph'
@@ -59,6 +60,11 @@ export default new Router({
           name: 'format',
           component: format,
         },
+        {
+          path: 'team',
+          name: 'team',
+          component: team,
+        }
       ]
     }, 
   ]

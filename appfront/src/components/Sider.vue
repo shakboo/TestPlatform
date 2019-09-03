@@ -23,6 +23,7 @@
           <a-menu-item key="toolUpload"  @click="gotoToolUpload">上传数据</a-menu-item>
           <a-menu-item key="toolFormat"  @click="gotoToolFormat">格式转换</a-menu-item>
         </a-sub-menu>
+        <a-menu-item key="team" @click="gotoTeam"><a-icon type="team" /><span>用户管理</span></a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -77,6 +78,9 @@ export default {
     },
     gotoToolFormat () {
       this.$router.push({name: 'format'});
+    },
+    gotoTeam () {
+      this.$router.push({name: 'team'});
     },
     logout () {
       localStorage.removeItem('Authorization');

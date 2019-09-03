@@ -301,7 +301,6 @@ export default {
         for (var i=0;i<modules.length;i++) {
           this.columns[1].filters.push({"text": modules[i].module, "value": modules[i].module});
         }
-        console.log(this.columns);
         this.cacheData = this.data.map(item => ({...item}));
         this.pagination = pagination;
       });

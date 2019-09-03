@@ -48,6 +48,8 @@ func InitRouter() *gin.Engine {
 		api_v1.POST("/tool/upload", v1.PostUploadFile)
 		// 转换数据格式
 		api_v1.POST("/tool/format", v1.PostChangeFileFormat)
+		// 用户管理
+		api_v1.GET("/team", v1.GetUser)
 	}
 
 	return r
