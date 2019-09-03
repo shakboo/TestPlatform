@@ -9,15 +9,21 @@ import (
 
 var (
 	Cfg *ini.File
-
+	// RUN_MODE
 	RunMode string
-
+	// server
 	HTTPPort int
 	ReadTimeout time.Duration
 	WriteTimeout time.Duration
-
+	// app
 	PageSize int
 	JwtSecret string
+	// redis
+	RedisHost string
+	RedisPassword string
+	RedisMaxIdle int
+	RedisMaxActive int
+	RedisIdleTimeout time.Duration
 )
 
 func init() {
@@ -60,4 +66,18 @@ func LoadApp() {
 
 	JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
 	PageSize = sec.Key("PAGE_SIZE").MustInt(10)
+}
+
+// 解析redis
+func LoadRedis() {
+	sec, err := Cfg.GetSection("redis")
+	if err != nil {
+		log.Fatalf("Fail to get section 'redis': %v", err)
+	}
+	
+	RedisHost = sec.Key("Host").MustString("172.17.3.185:6379")
+	RedisPassword = sec.Key("Password").MustString("")
+	RedisMaxIdle = sec.Key("MaxIdle").MustInt(30)
+	RedisMaxActive = sec.Key("MaxActive").MustInt(30)
+	RedisIdleTimeout = time.Duration(sec.Key("IdleTimeout").MustInt(200)) * time.Second
 }
