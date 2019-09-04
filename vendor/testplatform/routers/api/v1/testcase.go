@@ -24,11 +24,12 @@ func GetTestcase(c *gin.Context) {
 	pageCurrent := com.StrTo(c.DefaultQuery("pageCurrent", "1")).MustInt() // 当前页面
 	sortOrder := c.DefaultQuery("sortOrder", "ascend") // 排序方式
 	filterImportance := c.QueryArray("importance[]") // filter importance
+	filterModule := c.QueryArray("module[]") // filter module
 	
 	code := e.SUCCESS
 
-	data := models.GetTestcases(item, pageSize, pageCurrent, sortOrder, filterImportance)
-	totalCount := models.GetTestcasesTotal(item, filterImportance)
+	data := models.GetTestcases(item, pageSize, pageCurrent, sortOrder, filterImportance, filterModule)
+	totalCount := models.GetTestcasesTotal(item, filterImportance, filterModule)
 	modules := models.GetTestcasesModule(item)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -52,10 +53,12 @@ func PutTestcase(c *gin.Context) {
 	code := e.SUCCESS
 
 	models.PutTestcases(item, id, module, importance, describe, step, result)
+	modules := models.GetTestcasesModule(item)
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg": e.GetMsg(code),
+		"modules" : modules,
 	})
 }
 

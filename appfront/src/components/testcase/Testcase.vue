@@ -341,6 +341,11 @@ export default {
           this.$message.success('修改成功');
           delete target.editable;
           this.data = newData;
+          var modules = res.data.modules
+          this.columns[1].filters = [];
+          for (var i=0;i<modules.length;i++) {
+            this.columns[1].filters.push({"text": modules[i].module, "value": modules[i].module});
+          }
           this.cacheData = newData.map(item => ({ ...item }));
         });
       }

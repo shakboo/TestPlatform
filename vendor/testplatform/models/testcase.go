@@ -24,25 +24,41 @@ func GetAllTestcases(item string) (testcases []Testcase) {
 	return
 }
 
-func GetTestcases(item string, pageSize int, pageCurrent int, sortOrder string, filterImportance []string) (testcases []Testcase) {
+func GetTestcases(item string, pageSize int, pageCurrent int, sortOrder string, filterImportance, filterModule []string) (testcases []Testcase) {
 	var order = "ID"
 	if sortOrder == "descend" {
 		order = "ID desc"
 	}
 
 	if (len(filterImportance) > 0) {
-		db.Where("item = ?", item).Where("importance in (?)", filterImportance).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		if (len(filterModule) > 0) {
+			db.Where("item = ?", item).Where("importance in (?)", filterImportance).Where("module in (?)", filterModule).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		} else {
+			db.Where("item = ?", item).Where("importance in (?)", filterImportance).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		}	
 	} else {
-		db.Where("item = ?", item).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		if (len(filterModule) > 0) {
+			db.Where("item = ?", item).Where("module in (?)", filterModule).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		} else {
+			db.Where("item = ?", item).Offset((pageCurrent-1) * 10).Limit(pageSize).Order(order).Find(&testcases)
+		}
 	}
 	return
 }
 
-func GetTestcasesTotal(item string, filterImportance []string) (count int) {
+func GetTestcasesTotal(item string, filterImportance, filterModule []string) (count int) {
 	if (len(filterImportance) > 0) {
-		db.Model(&Testcase{}).Where("item = ?", item).Where("importance in (?)", filterImportance).Count(&count)
+		if (len(filterModule) > 0) {
+			db.Model(&Testcase{}).Where("item = ?", item).Where("importance in (?)", filterImportance).Where("module in (?)", filterModule).Count(&count)
+		} else {
+			db.Model(&Testcase{}).Where("item = ?", item).Where("importance in (?)", filterImportance).Count(&count)
+		}
 	} else {
-		db.Model(&Testcase{}).Where("item = ?", item).Count(&count)
+		if (len(filterModule) > 0) {
+			db.Model(&Testcase{}).Where("item = ?", item).Where("module in (?)", filterModule).Count(&count)
+		} else {
+			db.Model(&Testcase{}).Where("item = ?", item).Count(&count)
+		}	
 	}
 
 	return
