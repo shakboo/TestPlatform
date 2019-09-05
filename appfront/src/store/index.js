@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     // 存储token
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
-    username: localStorage.getItem('username') ? localStorage.getItem('username') : ''
+    username: localStorage.getItem('username') ? localStorage.getItem('username') : '',
+    role: localStorage.getItem('role') ? localStorage.getItem('role') : ''
   },
 
   mutations: {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
         state.username = user.username;
         localStorage.setItem('Authorization', user.Authorization);
         localStorage.setItem('username', user.username);
+        localStorage.setItem('role', user.role)
     }
   }
 });

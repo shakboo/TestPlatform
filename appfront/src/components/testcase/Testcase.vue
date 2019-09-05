@@ -245,6 +245,7 @@ export default {
       importLoading: false,
       importModalVisible: false, // import Modal
       fileList: [],  // import Modal
+      role: localStorage.getItem('role'),   // admin?
     }  
   },
   computed: {

@@ -35,6 +35,7 @@ axios.interceptors.response.use(
         case 400:    // 请求头中没有token
           localStorage.removeItem('Authorization');
           localStorage.removeItem('username');
+          localStorage.removeItem('role');
           router.replace({
             path: '/login',
             // query: {redirect: router.currentRoute.fullPath}
@@ -42,6 +43,7 @@ axios.interceptors.response.use(
         case 401:    // token验证失败
           localStorage.removeItem('Authorization');
           localStorage.removeItem('username');
+          localStorage.removeItem('role');
           router.replace({
             path: '/login',
             // query: {redirect: router.currentRoute.fullPath}
@@ -49,6 +51,7 @@ axios.interceptors.response.use(
         case 403:
           localStorage.removeItem('Authorization');
           localStorage.removeItem('username');
+          localStorage.removeItem('role');
           router.replace({
             path: '/login',
             // query: {redirect: router.currentRoute.fullPath}

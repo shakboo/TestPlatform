@@ -96,6 +96,8 @@ export default {
     },
     logout () {
       localStorage.removeItem('Authorization');
+      localStorage.removeItem('username');
+      localStorage.removeItem('role');
       this.$router.push({name: 'login'});
       this.$message.success("成功注销");   
     },
