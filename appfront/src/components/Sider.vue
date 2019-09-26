@@ -17,6 +17,7 @@
         <a-sub-menu key="data">
           <span slot="title"><a-icon type="appstore-o" /><span>数据构造</span></span>
           <a-menu-item key="dataGraph"  @click="gotoDataGraph">网络图</a-menu-item>
+          <a-menu-item key="dataPhoneCall"  @click="gotoDataPhoneCall">话单数据</a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="tool">
           <span slot="title"><a-icon type="tool" /><span>其他工具</span></span>
@@ -84,6 +85,9 @@ export default {
     },
     gotoDataGraph () {
       this.$router.push({name: 'graph'});
+    },
+    gotoDataPhoneCall () {
+      this.$router.push({name: 'phonecall'});
     },
     gotoToolUpload () {
       this.$router.push({name: 'upload'});

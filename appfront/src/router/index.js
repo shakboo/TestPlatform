@@ -6,6 +6,7 @@ import team from '@/components/user/Team'
 import sider from '@/components/Sider'
 import testcase from '@/components/testcase/Testcase'
 import graph from '@/components/data/Graph'
+import phonecall from '@/components/data/PhoneCall'
 import upload from '@/components/tool/Upload'
 import format from '@/components/tool/Format'
 
@@ -49,6 +50,11 @@ export default new Router({
           path: 'data/graph',
           name: 'graph',
           component: graph,
+        },
+        {
+          path: 'data/phonecall',
+          name: 'phonecall',
+          component: phonecall,
         },
         {
           path: 'tool/upload',

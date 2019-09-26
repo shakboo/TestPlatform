@@ -105,7 +105,7 @@ export default {
                   this.$message.error(res.data.msg);
                 }
                 _this.userToken = res.data.data.token;
-                _this.changeLogin({ Authorization: _this.userToken, username: values.username, role: values.role });
+                _this.changeLogin({ Authorization: _this.userToken, username: values.username });
                 let redirect = this.$route.query.redirect;
                 redirect ? this.$router.push(redirect) : this.$router.push({name: 'testcase-ml'});
             }).catch(err => { //请求失败就会捕获报错信息
