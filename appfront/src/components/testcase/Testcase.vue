@@ -32,8 +32,7 @@
             {rules: [{ required: true, message: '请填写用例模块' }]}
             ]" />
               <a-select-option v-for="option in columns[1].filters"
-              :value="option.value">{{ option.text }}</a-select-option>
-            </a-select>
+              :value="option.value" v-bind:key="option">{{ option.text }}</a-select-option>
           </a-form-item>
           <a-form-item
             label="重要性"
@@ -46,7 +45,7 @@
             {rules: [{ required: true, message: '请选择用例的重要性' }]}
             ]">
               <a-select-option v-for="option in columns[2].filters"
-              :value="option.value">{{ option.text }}</a-select-option>
+              :value="option.value" v-bind:key="option">{{ option.text }}</a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item
@@ -130,7 +129,7 @@
       </template>
       <template v-for="(col, colIndex) in ['module', 'importance', 'describe', 'step', 'result']"
         :slot="col"
-        slot-scope="text, record, index" >
+        slot-scope="text, record" >
         <div :key="col" v-if="record.editable">
           <a-input
             v-if="col === 'describe' || col === 'module'"
@@ -145,7 +144,7 @@
             @change="e => handleChange(e, record.id, col)"
           >
             <a-select-option v-for="option in columns[colIndex+1].filters"
-              :value="option.value">{{ option.text }}</a-select-option>
+              :value="option.value" v-bind:key="option">{{ option.text }}</a-select-option>
           </a-select>
           <a-textarea
             v-else-if="col === 'step' || col === 'result'"
@@ -157,7 +156,7 @@
         </div>
         <div :key="col" v-else><template>{{ text }}</template></div>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class='editable-row-operations'>
           <span v-if="record.editable">
             <a @click="() => save(record.id)">保存</a>
